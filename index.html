@@ -2116,7 +2116,7 @@
       </div>
       <p class="fnote" id="f-feedback" hidden></p>
       <p class="muted" id="fAtajos" style="text-align:center;margin-top:14px;font-size:.76rem">
-        Con teclado: <b>&rarr;</b> ver la respuesta · <b>Enter</b> la sabía · <b>Espacio</b> no la sabía
+        Con teclado: <b>Enter</b> gira, y otra vez la sabía · <b>Espacio</b> gira, y otra vez no la sabía
       </p>
     </div>
 
@@ -3918,15 +3918,18 @@ window.DEUTSCH_CONFIG = { googleClientId: "" };
   }
 
   flash.addEventListener("click", function () { cur ? flip() : (buildDeck(), nextCard()); });
-  flash.addEventListener("keydown", function (e) {
-    if (e.key === " " || e.key === "Enter") { e.preventDefault(); cur ? flip() : (buildDeck(), nextCard()); }
-  });
   $("b-reveal").addEventListener("click", function () {
     if (!cur) { buildDeck(); nextCard(); } else { flip(); }
   });
   $("b-yes").addEventListener("click", function () { mark(true); });
-  /* Atajos de teclado de las tarjetas: flecha derecha gira, Enter = la sabía,
-     Espacio = no la sabía. Solo actúan con la pestaña de tarjetas a la vista. */
+  /* Atajos de teclado de las tarjetas. Dos teclas y ya:
+
+       Enter    → gira la carta · y otra vez → la sabía
+       Espacio  → gira la carta · y otra vez → no la sabía
+
+     La segunda pulsación es la que puntúa, así que siempre ves la respuesta
+     antes de juzgarte. Eso lo resuelve mark(): con la carta tapada solo gira.
+     Solo actúan con la pestaña de tarjetas a la vista. */
   document.addEventListener("keydown", function (e) {
     var panel = $("p-pract"), vista = $("vTarjetas");
     if (!panel || panel.hidden || !vista || vista.hidden) return;
@@ -3935,7 +3938,6 @@ window.DEUTSCH_CONFIG = { googleClientId: "" };
     /* Si el foco está en la barra de pestañas, las flechas son suyas. */
     if (t && t.closest && t.closest("nav")) return;
     if (e.ctrlKey || e.metaKey || e.altKey) return;
-    if (e.key === "ArrowRight") { e.preventDefault(); if (!shown) flip(); return; }
     if (e.key === "Enter") { e.preventDefault(); mark(true); return; }
     if (e.key === " " || e.code === "Space") { e.preventDefault(); mark(false); return; }
   });
