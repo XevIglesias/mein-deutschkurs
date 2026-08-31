@@ -680,6 +680,12 @@
     .stats { grid-template-columns:repeat(3,1fr); }
   }
 
+
+/* Esta copia no tiene nube: el boton de subir sobra, y el de importar es el
+   que de verdad importa aqui -- es como se traen las notas de la otra app. */
+#syncNow, .syncpill { display:none !important; }
+#impBtn { border-color:var(--accent-dim); color:var(--accent); }
+
 </style>
 </head>
 <body>
@@ -5617,7 +5623,8 @@ window.DEUTSCH_CONFIG = { googleClientId: "" };
     pintarTestIntro(); pintarErrIntro(); pintarEjIntro();
   }
 
-  async function llamarAPI(accion, datos, extra, esReintento) {
+  async function llamarAPI() { return {}; }
+  async function _llamarAPI_original(accion, datos, extra, esReintento) {
     /* La sesión propia manda: dura 90 días. El token de Google solo se usa si
        todavía no hemos canjeado sesión (o si acaba de caducar). */
     if (!sesion && !token) throw new Error("sin_credencial");
@@ -7338,7 +7345,7 @@ window.DEUTSCH_CONFIG = { googleClientId: "" };
       var ahora = Object.keys(D.ejercicios || {}).length;
       $("impZona").hidden = true; $("impBox").value = "";
       bkMsg("Restaurado. Lecciones con nota: " + antes + " \u2192 <b>" + ahora + "</b>. " +
-            "Días: " + (D.dias || []).length + ". Ahora dale a <b>Guardar en la nube</b>.");
+            "Días: " + (D.dias || []).length + ". Aquí no hay nube: esto vive solo en este navegador.");
     });
   }
 
