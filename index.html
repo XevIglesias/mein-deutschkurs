@@ -3600,7 +3600,11 @@ window.DEUTSCH_CONFIG = { googleClientId: "" };
   if ($("gateDays")) $("gateDays").textContent = diasExamen;
 
   /* ==================== navegación ==================== */
-  var tabs = [].slice.call(document.querySelectorAll("nav button"));
+  /* Solo las pestañas de verdad. Dentro del <nav> vive además el botón de
+     plegar el rail, que no controla ningún panel: si entra en esta lista,
+     irA() intenta leer su aria-controls, se encuentra null y revienta — y con
+     ella se cae el cambio de pestaña entero. */
+  var tabs = [].slice.call(document.querySelectorAll('nav button[role="tab"]'));
   function irA(p) {
     tabs.forEach(function (o) {
       var on = o.dataset.p === p;
@@ -7483,6 +7487,19 @@ window.DEUTSCH_CONFIG = { googleClientId: "" };
                           last: (r && r.last) || HECHAS[n][1] };
       puestas++;
     }
+
+    /* La racha se calcula contando dias seguidos hacia atras desde hoy, y los
+       dias de practica estaban en el otro almacen. El alumno confirma que no
+       ha fallado ni uno desde el 19 de agosto: se anotan esos trece. */
+    var DIAS = ["2026-08-19","2026-08-20","2026-08-21","2026-08-22","2026-08-23",
+                "2026-08-24","2026-08-25","2026-08-26","2026-08-27","2026-08-28",
+                "2026-08-29","2026-08-30","2026-08-31"];
+    if (!D.dias) D.dias = [];
+    DIAS.forEach(function (d) {
+      if (D.dias.indexOf(d) === -1) { D.dias.push(d); puestas++; }
+    });
+    D.dias.sort();
+
     if (puestas) save();
   })();
 
