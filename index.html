@@ -603,7 +603,7 @@
 
   @media (min-width:1000px) {
     nav {
-      position:fixed; top:0; left:0; bottom:0; right:auto; width:var(--rail,232px);
+      position:fixed; top:0; left:0; bottom:0; right:auto; width:var(--rail,248px);
       flex-direction:column; justify-content:flex-start; align-items:stretch; gap:3px;
       border-top:0; border-right:1px solid var(--line);
       padding:20px 12px; background:var(--surface); backdrop-filter:none;
@@ -613,7 +613,7 @@
     /* La marca: el mismo sello «De» de la cabecera y el nombre en Fraunces. */
     .marca {
       display:flex; align-items:center; gap:10px;
-      padding:0 8px 16px; margin-bottom:8px; border-bottom:1px solid var(--line);
+      padding:0 18px 16px 8px; margin-bottom:8px; border-bottom:1px solid var(--line);
       min-height:34px;
     }
     .marca-sello {
@@ -658,9 +658,11 @@
     body.rail-corto nav button { justify-content:center; padding-left:0; padding-right:0; gap:0; }
     body.rail-corto .rail-btn { transform:rotate(180deg); }
 
-    .wrap { margin-left:var(--rail,232px); max-width:none; padding-bottom:40px;
+    .wrap { margin-left:var(--rail,248px); max-width:none; padding-bottom:40px;
             transition:margin-left .22s cubic-bezier(.4,0,.2,1); }
-    .status { padding-left:0; padding-right:0; background:var(--chrome); }
+    /* Aquí estaba el negro de arriba: esta regla volvía a poner --chrome y se
+       comía el fondo claro de la cabecera, justo al lado del rail blanco. */
+    .status { padding-left:0; padding-right:0; }
     .status-top, .status-facts, .meter { max-width:880px; margin-left:auto; margin-right:auto; }
     .status-top, .status-facts { padding:0 28px; }
     .meter { max-width:calc(880px - 56px); }
@@ -685,6 +687,8 @@
    que de verdad importa aqui -- es como se traen las notas de la otra app. */
 #syncNow, .syncpill { display:none !important; }
 #impBtn { border-color:var(--accent-dim); color:var(--accent); }
+/* Ni cuentas: el circulo con la inicial no representaba nada. */
+#acctBtn, #acctName { display:none !important; }
 
 </style>
 </head>
